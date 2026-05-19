@@ -9,7 +9,7 @@
   <a href="./i18n/README.en.md">English</a>
 </p>
 
-## 是什么
+## MDPASTE是什么
 
 MDPASTE Portable 是一个面向 Windows 的 PasteMD 便携发行包。它用于把复制出来的 Markdown 内容转换成更适合粘贴到 Word、WPS、Office 等软件中的格式。
 
