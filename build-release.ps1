@@ -25,7 +25,7 @@ $include = @(
   "portable-config.ps1",
   "switch-startup.cmd",
   "README.md",
-  "README.txt",
+  "i18n",
   "RELEASE_NOTES.md",
   "MODIFICATIONS.md",
   "UPSTREAM_COMPARISON.md",
