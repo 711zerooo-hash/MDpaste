@@ -1,6 +1,13 @@
 # Local runtime state
 cache/
 portable-data/
+release-restore/
+rollback-backup-generated-runtime/
+exe-extract-tmp/
+exe-verify-tmp/
+exe-analyze-tmp/
+exe-pref-verify/
+MdPaste.exe.before-*
 
 # Release artifacts
 dist/

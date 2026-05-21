@@ -24,7 +24,7 @@ MDPASTE Portable 是一个面向 Windows 的 PasteMD 便携发行包。它用于
 ## 快速开始
 
 1. 打开 GitHub Releases 页面。
-2. 下载 `MDPASTE-portable-v0.1.0.0.zip`。
+2. 下载 `MDPASTE-portable-v0.1.1.zip`。
 3. 解压到任意文件夹。
 4. 双击 `MDPASTE.cmd` 启动。
 5. 复制 Markdown 内容后，按默认快捷键 `Ctrl+Alt+B` 进行转换/粘贴。
@@ -107,6 +107,12 @@ _internal\pandoc\pandoc.exe
 
 如果发布的 `MdPaste.exe` 中还包含 Python 逻辑修改，则需要继续补充用于构建该二进制的对应修改源码。
 
+## v0.1.1 更新说明
+
+`v0.1.1` 是兼容性修复版本。建议版本号按 SemVer 风格维护：修复问题递增 patch，例如 `0.1.1`；新增功能递增 minor，例如 `0.2.0`；稳定公开接口后再使用 `1.0.0`。
+
+本版本修复 ChatGPT 网页片段复制时，代码块被当作普通文本导致 Markdown fence 丢失的问题；同时代码块和行内代码内部不再被 LaTeX/公式规则误转换，正文公式转换保持开启。
+
 ## 版本维护
 
 如果发行版本发生变化，需要同步修改以下位置：
@@ -131,7 +137,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\build-release.ps1
 输出文件：
 
 ```text
-dist\MDPASTE-portable-v0.1.0.0.zip
+dist\MDPASTE-portable-v0.1.1.zip
 ```
 
 完整可运行包通过 GitHub Release 附件发布。Git 仓库只保存启动脚本、打包脚本、说明文档、许可证、源码说明和已识别的修改资源。
@@ -146,6 +152,6 @@ dist\MDPASTE-portable-v0.1.0.0.zip
 
 上游项目：<https://github.com/RICHQAQ/PasteMD>
 
-本便携封装发行版本为 `v0.1.0.0`。它重新分发的上游 PasteMD 对应版本为 `v0.1.6.8`：<https://github.com/RICHQAQ/PasteMD/tree/v0.1.6.8>
+本便携封装发行版本为 `v0.1.1`。它重新分发的上游 PasteMD 对应版本为 `v0.1.6.8`：<https://github.com/RICHQAQ/PasteMD/tree/v0.1.6.8>
 
 PasteMD 采用 AGPL-3.0 许可。本仓库是对 PasteMD Windows 便携包的再分发/封装，仓库内启动脚本和打包文件也按 AGPL-3.0 发布。发布时请保留 `LICENSE`、`NOTICE.md` 和 `SOURCE.md`。

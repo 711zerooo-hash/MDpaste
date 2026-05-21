@@ -1,8 +1,29 @@
-# MDPASTE Portable v0.1.0.0
+# MDPASTE Portable v0.1.1
 
 ## Assets
 
-- `MDPASTE-portable-v0.1.0.0.zip`: portable package. Extract and run `MDPASTE.cmd`.
+- `MDPASTE-portable-v0.1.1.zip`: portable package. Extract and run `MDPASTE.cmd`.
+
+## What Changed
+
+- Fixed ChatGPT web fragment copy handling so HTML code blocks are preferred when plaintext clipboard content has already lost Markdown fences.
+- Protected fenced code blocks, indented code blocks, and inline code from LaTeX/formula rewrites.
+- Kept normal body formula conversion enabled for copied Markdown and web fragments.
+- Added `tools/patch_release_exe.py` as the corresponding patch script used to update the bundled PyInstaller executable.
+
+## Portability Check
+
+- Startup still derives the app home from `MDPASTE.cmd` / `MdPaste-portable.cmd`; no local machine path is required.
+- `portable-config.ps1` rewrites `pandoc_path` and `save_dir` from the current folder on every start.
+- Runtime state remains under `portable-data` and `cache`, so the extracted folder can be copied to another Windows computer.
+
+## Versioning
+
+This project should use SemVer-style release names going forward:
+
+- Patch fixes: `0.1.1`, `0.1.2`
+- New compatible features: `0.2.0`
+- Stable public release: `1.0.0`
 
 ## User Notes
 
@@ -17,15 +38,9 @@
 
 MDPASTE converts copied Markdown, including AI chat answers, into formatted paste output for Word/WPS/Office and other supported applications.
 
-## Source Compliance
-
-This release publishes the modified upstream resource files that are visible in the local runtime package, plus the portable launcher, configuration, packaging scripts, and documentation changes made for this redistribution. Upstream corresponding source is linked below.
-
-Detailed changes from upstream are documented in `MODIFICATIONS.md`.
-
 ## License and Source
 
 - Upstream project: <https://github.com/RICHQAQ/PasteMD>
-- Portable release version: `v0.1.0.0`
+- Portable release version: `v0.1.1`
 - Upstream corresponding source: <https://github.com/RICHQAQ/PasteMD/tree/v0.1.6.8>
 - License: AGPL-3.0. The release keeps `LICENSE`, `NOTICE.md`, and `SOURCE.md`.

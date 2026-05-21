@@ -1,5 +1,5 @@
 param(
-  [string]$Version = "0.1.0.0"
+  [string]$Version = "0.1.1"
 )
 
 $ErrorActionPreference = "Stop"
@@ -30,6 +30,7 @@ $include = @(
   "MODIFICATIONS.md",
   "UPSTREAM_COMPARISON.md",
   "SOURCE.md",
+  "tools",
   "LICENSE",
   "NOTICE.md"
 )

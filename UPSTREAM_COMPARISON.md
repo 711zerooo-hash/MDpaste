@@ -5,7 +5,7 @@ Comparison target:
 - Upstream repository: https://github.com/RICHQAQ/PasteMD
 - Upstream tag: `v0.1.6.8`
 - Upstream commit: `84b2cea1f291d910d4cf2d0a1fbc829f6bfec524`
-- Local portable release: `v0.1.0.0`
+- Local portable release: `v0.1.1`
 
 The local package was compared against the upstream source ZIP for `v0.1.6.8`.
 
@@ -44,6 +44,7 @@ These files are not upstream PasteMD files. They were added for the portable Win
 | `portable-config.ps1` | rewrites portable paths on startup |
 | `switch-startup.cmd` | Windows login startup helper |
 | `build-release.ps1` | builds the Release ZIP |
+| `tools/patch_release_exe.py` | applies the v0.1.1 executable compatibility patch |
 | `README.md` | user and maintenance documentation |
 | `README.txt` | short user instructions included in ZIP |
 | `RELEASE_NOTES.md` | GitHub Release notes |
@@ -54,4 +55,4 @@ These files are not upstream PasteMD files. They were added for the portable Win
 
 ## Limitations
 
-The local portable package does not contain readable Python source files or `.pyc` files outside `MdPaste.exe`. If `MdPaste.exe` includes Python logic changes beyond the resource files listed above, the modified Python source used to build that executable must be added separately for complete AGPL corresponding-source coverage.
+The local portable package does not contain full readable Python source files outside `MdPaste.exe`. The v0.1.1 executable compatibility patch is documented and reproduced by `tools/patch_release_exe.py`.

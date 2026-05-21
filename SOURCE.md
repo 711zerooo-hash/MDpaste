@@ -1,10 +1,10 @@
 # Corresponding Source
 
-MDPASTE Portable release `v0.1.0.0` redistributes upstream PasteMD `v0.1.6.8`.
+MDPASTE Portable release `v0.1.1` redistributes upstream PasteMD `v0.1.6.8`.
 
 The source published in this repository covers the visible modifications in this redistribution: modified upstream resource files, portable launcher scripts, configuration rewrite script, startup helper, packaging script, and documentation changes added for the portable release.
 
-If the distributed `MdPaste.exe` contains Python logic changes beyond these visible resource changes, the corresponding modified Python source used to build that executable must also be added. The current local package does not expose those Python sources outside the PyInstaller executable.
+`v0.1.1` additionally patches the bundled PyInstaller executable to fix ChatGPT web fragment copy handling and protect code blocks from formula rewrites. The corresponding patch script is published as `tools/patch_release_exe.py`.
 
 Upstream corresponding source:
 
@@ -22,6 +22,7 @@ Packaging source in this repository:
 - `portable-config.ps1`
 - `switch-startup.cmd`
 - `build-release.ps1`
+- `tools/patch_release_exe.py`
 
 Detailed modifications from upstream are listed in `MODIFICATIONS.md`. The comparison against upstream `v0.1.6.8` is summarized in `UPSTREAM_COMPARISON.md`.
 

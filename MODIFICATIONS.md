@@ -1,6 +1,6 @@
 # Modifications from Upstream PasteMD
 
-This repository redistributes upstream PasteMD `v0.1.6.8` as MDPASTE Portable `v0.1.0.0`.
+This repository redistributes upstream PasteMD `v0.1.6.8` as MDPASTE Portable `v0.1.1`.
 
 The release package includes the upstream application binary:
 
@@ -9,7 +9,7 @@ The release package includes the upstream application binary:
 
 The changes published in this repository include both portable packaging changes and modified upstream resource files that were visible in the packaged runtime.
 
-Important compliance note: if the distributed `MdPaste.exe` contains Python logic changes beyond the resource files listed below, the corresponding modified Python source used to build that executable must also be added to this repository. The current local package does not contain `.py` or `.pyc` files outside the PyInstaller executable, so only visible modified resources can be extracted and committed here.
+`v0.1.1` includes a PyInstaller archive patch applied to `MdPaste.exe`. The corresponding patch script is committed as `tools/patch_release_exe.py`.
 
 ## Modified Upstream Resource Files
 
@@ -113,13 +113,23 @@ If the folder is moved, users should run this script again to refresh the schedu
 
 Release packaging script.
 
-It creates `dist\MDPASTE-portable-v0.1.0.0.zip` from:
+It creates `dist\MDPASTE-portable-v0.1.1.zip` from:
 
 - upstream binary/runtime files: `MdPaste.exe`, `_internal`
 - portable launcher/config scripts
 - documentation and license/source notice files
 
 It intentionally does not include local runtime state such as `portable-data` config/log files.
+
+### `tools\patch_release_exe.py`
+
+Patch script for the bundled PyInstaller executable.
+
+It updates the embedded Python archive in `MdPaste.exe` to:
+
+- prefer clipboard HTML when ChatGPT fragment-copy HTML contains code blocks but plaintext has no Markdown fence;
+- protect fenced code blocks, indented code blocks, and inline code from LaTeX/formula rewrites;
+- keep normal body formula conversion enabled.
 
 ## Documentation and Compliance Files
 
