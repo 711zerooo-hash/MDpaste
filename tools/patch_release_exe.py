@@ -25,14 +25,95 @@ def convert_latex_delimiters(
     Preprocess LaTeX delimiters while keeping code blocks and inline code literal.
     """
 
+    def split_code_regions(src: str):
+        n = len(src)
+        i = 0
+        while i < n:
+            line_start = i
+            line_end = src.find("\n", i)
+            if line_end == -1:
+                line_end = n
+                next_line = n
+            else:
+                next_line = line_end + 1
+            line = src[line_start:line_end]
+            stripped = line.lstrip(" \t")
+            indent_len = len(line) - len(stripped)
+
+            if indent_len <= 3 and (stripped.startswith("```") or stripped.startswith("~~~")):
+                marker = stripped[0]
+                fence_len = 0
+                while fence_len < len(stripped) and stripped[fence_len] == marker:
+                    fence_len += 1
+                if fence_len >= 3:
+                    j = next_line
+                    while j < n:
+                        end = src.find("\n", j)
+                        if end == -1:
+                            end = n
+                            after = n
+                        else:
+                            after = end + 1
+                        candidate = src[j:end].lstrip(" \t")
+                        if candidate.startswith(marker * fence_len):
+                            k = 0
+                            while k < len(candidate) and candidate[k] == marker:
+                                k += 1
+                            if k >= fence_len and candidate[k:].strip() == "":
+                                yield True, src[line_start:after]
+                                i = after
+                                break
+                        j = after
+                    else:
+                        yield True, src[line_start:n]
+                        i = n
+                    continue
+
+            if line.startswith("    ") or line.startswith("\t"):
+                j = next_line
+                while j < n:
+                    end = src.find("\n", j)
+                    if end == -1:
+                        end = n
+                        after = n
+                    else:
+                        after = end + 1
+                    candidate = src[j:end]
+                    if not (candidate.startswith("    ") or candidate.startswith("\t")):
+                        break
+                    j = after
+                yield True, src[line_start:j]
+                i = j
+                continue
+
+            start = i
+            while i < n:
+                if src[i] == "`":
+                    run_end = i + 1
+                    while run_end < n and src[run_end] == "`":
+                        run_end += 1
+                    fence = src[i:run_end]
+                    close = src.find(fence, run_end)
+                    if close != -1 and "\n" not in src[i : close + len(fence)]:
+                        if start < i:
+                            yield False, src[start:i]
+                        yield True, src[i : close + len(fence)]
+                        i = close + len(fence)
+                        start = i
+                        continue
+                if src[i] == "\n":
+                    i += 1
+                    break
+                i += 1
+            if start < i:
+                yield False, src[start:i]
+
     def process_segment(segment: str) -> str:
         segment = _unwrap_blockquoted_math(segment)
         segment = _convert_bare_bracket_display_math(segment)
 
         if convert_standard_delimiters:
             segment = _convert_standard_latex_delimiters(segment)
-
-        segment = _convert_plain_parenthesized_math(segment)
 
         if fix_single_dollar_block:
             segment = _fix_inline_math_spaces(segment)
@@ -41,7 +122,10 @@ def convert_latex_delimiters(
         segment = _normalize_inline_math_segments(segment)
         return _normalize_display_math_blocks(segment)
 
-    return _process_outside_code_blocks(text, process_segment)
+    parts = []
+    for is_code, part in split_code_regions(text):
+        parts.append(part if is_code else process_segment(part))
+    return "".join(parts)
 '''
 
 PATCHED_SHOULD_PREFER_CLIPBOARD_TEXT_SOURCE = r'''
@@ -306,8 +390,9 @@ def main():
     latex_code, regex_changed = replace_const(
         latex_code, OLD_FENCED_PATTERN, NEW_CODE_BLOCK_PATTERN
     )
-    if not regex_changed:
-        raise RuntimeError("Did not find target fenced-code regex constant")
+    # Older v0.1.1 packages may already have replaced this constant. Keep the
+    # script idempotent so it can patch those executables with the newer
+    # linear scanner without requiring the original upstream binary.
     replacement = compile_replacement_function(
         PATCHED_CONVERT_LATEX_SOURCE, "convert_latex_delimiters"
     )
